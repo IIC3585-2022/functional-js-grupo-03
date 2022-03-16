@@ -3,9 +3,10 @@ const BULL_POINTS = {
     'DB': 50
 }
 
-function insertMove(playerName, pointsLeft, play) {
+function insertMove(userData, play) {
+    const { name, pointsLeft } = userData;
     const result = {
-        playerName,
+        name,
         newPoints: pointsLeft - processPlay(play)
     }
 
@@ -62,6 +63,8 @@ function processString(item) {
     } else if (item.toLowerCase() === 'db') {
         return BULL_POINTS.DB;
     }
+
+    return 0;
 }
 
 function processArray(item) {

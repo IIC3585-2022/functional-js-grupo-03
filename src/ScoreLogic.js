@@ -1,17 +1,14 @@
-const BULL_POINTS = {
-    'SB': 25,
-    'DB': 50
-}
-
 function insertMove(userData, play) {
     const { name, pointsLeft } = userData;
     const result = {
         name,
-        newPoints: pointsLeft - processPlay(play)
+        points: newPoints(processPlay2)(pointsLeft, play),
     }
 
     return result;
 }
+
+const newPoints = (f) => (pointsLeft, playData) => pointsLeft - f(playData);
 
 function processPlay(play) {
     // play is an array of lenght 3
@@ -59,9 +56,9 @@ function processItem(item) {
 
 function processString(item) {
     if (item.toLowerCase() === 'sb') {
-        return BULL_POINTS.SB;
+        return 25;
     } else if (item.toLowerCase() === 'db') {
-        return BULL_POINTS.DB;
+        return 50;
     }
 
     return 0;

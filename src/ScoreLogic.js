@@ -1,14 +1,14 @@
 function insertMove(userData, play) {
-    const { name, pointsLeft } = userData;
-    const result = {
-        name,
-        points: newPoints(processPlay2)(pointsLeft, play),
-    }
+    const { name, points } = userData;
+    const newPoints = obtainNewPoints(processPlay2)(points, play);
 
-    return result;
+    return {
+        name,
+        points: newPoints
+    };
 }
 
-const newPoints = (f) => (pointsLeft, playData) => pointsLeft - f(playData);
+const obtainNewPoints = (f) => (pointsLeft, playData) => Math.abs(pointsLeft - f(playData));
 
 function processPlay(play) {
     // play is an array of lenght 3
@@ -47,6 +47,7 @@ function processPlay(play) {
 }
 
 function processPlay2(play) {
+    console.log(typeof play);
     return play.reduce((previousValue, currentValue) => { return previousValue + processItem(currentValue) }, 0);
 }
 
@@ -67,3 +68,5 @@ function processString(item) {
 function processArray(item) {
     return item.reduce((a, b) => a * b);
 }
+
+module.exports = { insertMove };

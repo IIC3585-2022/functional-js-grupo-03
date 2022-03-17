@@ -1,12 +1,16 @@
+const prompt = require('prompt-sync')({ sigint: true });
+
 function getPlayerName() {
 
-    // Solicita un nombre al usuario por consola
+    // Solicita un input nombre al usuario por consola
     // retorna una tupla con su nombre y un puntaje
+    console.log("");
+    const name = prompt("What is your name? ");
 
-    const name = prompt("Ingrese su nombre");
-
-    return [name, 501];
-
+    return {
+        name,
+        points: 501
+    };
 }
 
 function PlayersFactory(numberOfPlayers) {
@@ -21,6 +25,14 @@ function PlayersFactory(numberOfPlayers) {
         players.push(getPlayerName());
     }
 
-    return players;
+    return shuffle(players);
 
 }
+
+function shuffle(array) {
+    return array.sort(() => Math.random() - 0.5);
+}
+
+// PlayersFactory(3);
+
+module.exports = { PlayersFactory };

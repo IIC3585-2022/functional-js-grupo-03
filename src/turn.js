@@ -5,11 +5,13 @@ function turn() {
 
     // El jugador ingresa 3 jugadas
     const plays = 3;
-    var play;
 
-    for (let i = 0; i < plays; i++) {
+    displayRulesOfPlay();
+    var play = curriedPlayArray(insertNewPlay(0));
+
+    for (let i = 1; i < plays; i++) {
         displayRulesOfPlay();
-        play = curriedPlayArray(insertNewPlay(i));
+        play = play(insertNewPlay(i));
     }
 
     return play;
@@ -68,15 +70,19 @@ function getPlay(number) {
 }
 
 function playArray(firstPlay, secondPlay, thirdPlay) {
-    console.log("hoplaaaaaaaaaaaaaaaaaaaaaaa");
     return [firstPlay, secondPlay, thirdPlay];
 }
 
 var curriedPlayArray = _.curry(playArray);
 
-for (let i = 0; i < 5; i++) {
-    console.log(i);
-    curriedPlayArray(i);
-}
+// var play = curriedPlayArray(0);
+
+// for (let i = 1; i < 3; i++) {
+//     console.log(i);
+//     play = play(i);
+// }
+
+// console.log(play);
+
 
 module.exports = { turn };

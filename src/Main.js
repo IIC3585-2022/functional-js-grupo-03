@@ -11,7 +11,7 @@ function initGame() {
     var players = [];
     var playersSupportArray = [];
 
-    const numberOfRound = 3;
+    const numberOfRounds = 3;
 
     // ask how many players
     console.log("");
@@ -20,10 +20,13 @@ function initGame() {
     players = PlayersFactory(numberOfPlayers);
 
     // start the game
-    for (let i = 0; i < numberOfRound; i++) {
+    for (let i = 0; i < numberOfRounds; i++) {
+
+        console.log("\nRound " + (i + 1));
 
         // ask for each player to play
         players.forEach(player => {
+            console.log("\nPlayer " + player.name + " turn");
             const play = turn();
             const newDataPlayer = insertMove(player, play);
             playersSupportArray.push(newDataPlayer);
@@ -33,6 +36,12 @@ function initGame() {
         playersSupportArray = [];
 
     }
+
+    console.log("\nFinal score: ");
+
+    players.forEach(player => {
+        console.log("\nPlayer " + player.name + ": " + player.points);
+    });
 
     return 0;
 }

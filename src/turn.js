@@ -7,16 +7,19 @@ function turn() {
     const plays = 3;
 
     displayRulesOfPlay();
-    var play = curriedPlayArray(insertNewPlay(0));
 
-    for (let i = 1; i < plays; i++) {
-        displayRulesOfPlay();
-        play = play(insertNewPlay(i));
-    }
+    // var play = curriedPlayArray(insertNewPlay(0));
 
-    return play;
+    // for (let i = 1; i < plays; i++) {
+    //     displayRulesOfPlay();
+    //     play = play(insertNewPlay(i));
+    // }
+
+    return callCurriedFunctionNTimes(plays)(curriedPlayArray)(insertNewPlay);
 
 }
+
+const callCurriedFunctionNTimes = (n) => (fn) => (gx) => n === 1 ? fn(gx(n)) : callCurriedFunctionNTimes(n - 1)(fn)(gx)(gx(n));
 
 function displayRulesOfPlay() {
     console.log("\nThere are 4 type of plays: ");
@@ -30,6 +33,7 @@ const insertNewPlay = (nPlay) => {
 
     while (!verifyPlay(newPlay)) {
         console.log("\nInvalid play, try again");
+        displayRulesOfPlay();
         newPlay = getPlay(nPlay);
     }
 
@@ -37,9 +41,10 @@ const insertNewPlay = (nPlay) => {
 }
 
 function normalizePlay(play) {
-    if (play.toLowerCase() === 'sb' || play.toLowerCase() === 'db' || play.toLowerCase() === 'null') {
-        return play;
-    } else if (play.includes(',') && play.split(',').length === 2) {
+
+    if (['sb', 'db', 'null'].includes(play.toLowerCase())) { return play; }
+
+    else if (play.includes(',') && play.split(',').length === 2) {
         const array = play.split(',');
         return [parseInt(array[0]), parseInt(array[1])];
     }
@@ -49,24 +54,22 @@ function normalizePlay(play) {
 
 
 function verifyPlay(play) {
-    if (play.toLowerCase() === 'sb') {
-        return true;
-    } else if (play.toLowerCase() === 'db') {
-        return true;
-    } else if (play.toLowerCase() === 'null') {
-        return true;
-    } else if (play.includes(',') && play.split(',').length === 2) {
+
+    if (['sb', 'db', 'null'].includes(play.toLowerCase())) { return true; }
+
+    else if (play.includes(',') && play.split(',').length === 2) {
         const array = play.split(',');
         if (!array[0].includes('.') && !array[1].includes('.')) {
             if (!!parseInt(array[0]) && !!parseInt(array[1])) return true;
         }
     }
+
     return false;
 }
 
 function getPlay(number) {
     console.log("");
-    return prompt(`So, What is your ${number + 1} play? `);
+    return prompt(`So, What is your ${number} play? `);
 }
 
 function playArray(firstPlay, secondPlay, thirdPlay) {

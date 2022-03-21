@@ -15,7 +15,7 @@ function turn() {
     //     play = play(insertNewPlay(i));
     // }
 
-    return callCurriedFunctionNTimes(plays)(curriedPlayArray)(insertNewPlay);
+    return callCurriedFunctionNTimes(plays)(curriedNPlayArray(plays))(insertNewPlay);
 
 }
 
@@ -72,11 +72,17 @@ function getPlay(number) {
     return prompt(`So, What is your ${number} play? `);
 }
 
+function createNewArray(...args) {
+    return [...args];
+}
+
 function playArray(firstPlay, secondPlay, thirdPlay) {
     return [firstPlay, secondPlay, thirdPlay];
 }
 
 var curriedPlayArray = _.curry(playArray);
+
+var curriedNPlayArray = (N) => _.curry(createNewArray, N);
 
 // var play = curriedPlayArray(0);
 
@@ -86,6 +92,8 @@ var curriedPlayArray = _.curry(playArray);
 // }
 
 // console.log(play);
+
+//console.log(curriedNPlayArray(3)(1)(2, 3));
 
 
 module.exports = { turn };

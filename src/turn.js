@@ -15,11 +15,13 @@ function turn() {
     //     play = play(insertNewPlay(i));
     // }
 
-    return callCurriedFunctionNTimes(plays)(curriedNPlayArray(plays))(insertNewPlay);
+    return callCurriedFunctionNTimes(plays, curriedNPlayArray(plays), insertNewPlay);
 
 }
 
-const callCurriedFunctionNTimes = (n) => (fn) => (gx) => n === 1 ? fn(gx(n)) : callCurriedFunctionNTimes(n - 1)(fn)(gx)(gx(n));
+/** Aqui convendria usar un Y combinator */
+const callCurriedFunctionNTimes = (n, fn, gx) => (n === 1) ? fn(gx(n)) : callCurriedFunctionNTimes(n - 1, fn, gx)(gx(n));
+
 
 function displayRulesOfPlay() {
     console.log("\nThere are 4 type of plays: ");
@@ -73,7 +75,7 @@ function getPlay(number) {
 }
 
 function createNewArray(...args) {
-    return [...args];
+    return new Array(...args);
 }
 
 function playArray(firstPlay, secondPlay, thirdPlay) {
@@ -93,7 +95,9 @@ var curriedNPlayArray = (N) => _.curry(createNewArray, N);
 
 // console.log(play);
 
-//console.log(curriedNPlayArray(3)(1)(2, 3));
+// console.log(curriedNPlayArray(3)(1)(2, 3));
+
+console.log(turn());
 
 
 module.exports = { turn };

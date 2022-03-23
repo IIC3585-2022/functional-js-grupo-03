@@ -13,7 +13,7 @@ const validRangePlayers = (minPlayers, maxPlayers) => (N) => {
     return N >= minPlayers && N <= maxPlayers;
 }
 
-const obtainNewNumber = (isValid) => (getNewNumber) => (f) => (N => (isValid(N)) ? N : f(getNewNumber("Invalid number, try again: ")));
+const obtainNewInput = (isValid) => (getNewInput) => (f) => (N => (isValid(N)) ? N : f(getNewInput("Invalid input, try again: ")));
 
 Y = f => (x => x(x))(x => f(y => x(x)(y)));
 
@@ -28,7 +28,7 @@ function initGame() {
     const minPlayers = 2;
     const maxPlayers = 6;
 
-    const getValidNumber = obtainNewNumber(validRangePlayers(minPlayers, maxPlayers))(getNumberOfPlayers);
+    const getValidNumber = obtainNewInput(validRangePlayers(minPlayers, maxPlayers))(getNumberOfPlayers);
 
     // ask how many players
     console.log("");

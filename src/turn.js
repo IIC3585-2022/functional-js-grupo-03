@@ -51,7 +51,7 @@ function normalizePlay(play) {
         return [parseInt(array[0]), parseInt(array[1])];
     }
 
-    return null;
+    return 'null';
 }
 
 
@@ -97,7 +97,7 @@ var curriedNPlayArray = (N) => _.curry(createNewArray, N);
 
 // console.log(curriedNPlayArray(3)(1)(2, 3));
 
-console.log(turn());
+// console.log(turn());
 
 
 module.exports = { turn };

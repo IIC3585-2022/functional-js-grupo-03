@@ -5,6 +5,17 @@ const { PlayersFactory } = require('./Player');
 const { insertMove } = require('./ScoreLogic');
 const { turn } = require('./turn');
 
+const getNumberOfPlayers = (message) => {
+    return prompt(`${message}`);
+}
+
+const validRangePlayers = (minPlayers, maxPlayers) => (N) => {
+    return N >= minPlayers && N <= maxPlayers;
+}
+
+const obtainNewNumber = (isValid) => (getNewNumber) => (f) => (N => (isValid(N)) ? N : f(getNewNumber("Invalid number, try again: ")));
+
+Y = f => (x => x(x))(x => f(y => x(x)(y)));
 
 function initGame() {
 
@@ -12,10 +23,16 @@ function initGame() {
     var playersSupportArray = [];
 
     const numberOfRounds = 3;
+    const numberOfPlaysPerRound = 3;
+
+    const minPlayers = 2;
+    const maxPlayers = 6;
+
+    const getValidNumber = obtainNewNumber(validRangePlayers(minPlayers, maxPlayers))(getNumberOfPlayers);
 
     // ask how many players
     console.log("");
-    const numberOfPlayers = prompt("How many players? ");
+    const numberOfPlayers = Y(getValidNumber)(getNumberOfPlayers("How many players? " + `(min:${minPlayers}, max:${maxPlayers}): `));
 
     players = PlayersFactory(numberOfPlayers);
 

@@ -6,7 +6,7 @@ function turn() {
     // El jugador ingresa 3 jugadas
     const plays = 3;
 
-    displayRulesOfPlay();
+    // displayRulesOfPlay();
 
     // var play = curriedPlayArray(insertNewPlay(0));
 
@@ -15,9 +15,18 @@ function turn() {
     //     play = play(insertNewPlay(i));
     // }
 
-    return callCurriedFunctionNTimes(plays, curriedNPlayArray(plays), insertNewPlay);
+    // return callCurriedFunctionNTimes(plays, curriedNPlayArray(plays), insertNewPlay);
+    return getNPlaysInArray(plays);
 
 }
+
+const getInput = (message) => {
+    return prompt(`${message}`);
+}
+
+const obtainNewInput = (isValid) => (getNewInput) => (f) => (N => (isValid(N)) ? N : f(getNewInput("Invalid input, try again: ")));
+
+Y = f => (x => x(x))(x => f(y => x(x)(y)));
 
 /** Aqui convendria usar un Y combinator */
 const callCurriedFunctionNTimes = (n, fn, gx) => (n === 1) ? fn(gx(n)) : callCurriedFunctionNTimes(n - 1, fn, gx)(gx(n));
@@ -27,6 +36,21 @@ function displayRulesOfPlay() {
     console.log("\nThere are 4 type of plays: ");
     console.log("SB, DB, null or number,number");
     console.log("In the number,number, the second number is the points and the first number is the multiplier");
+}
+
+const getValidPlay = obtainNewInput(verifyPlay)(getInput);
+
+const insertNewPlay2 = (number) => Y(getValidPlay)(getInput(`So, What is your ${number} play? `));
+
+const combineFunctions = (f, g) => (...args) => f(g(...args));
+
+const getNormalizedPlay = (N) => combineFunctions(normalizePlay, insertNewPlay2)(N);
+
+const getNPlaysInArray = (N) => {
+    return Array(...Array(N).keys()).map((value) => value + 1).map((n) => {
+        displayRulesOfPlay();
+        return getNormalizedPlay(n);
+    });
 }
 
 const insertNewPlay = (nPlay) => {
@@ -97,7 +121,7 @@ var curriedNPlayArray = (N) => _.curry(createNewArray, N);
 
 // console.log(curriedNPlayArray(3)(1)(2, 3));
 
-// console.log(turn());
+console.log(turn());
 
 
 module.exports = { turn };

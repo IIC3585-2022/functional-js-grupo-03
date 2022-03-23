@@ -3,19 +3,12 @@ const prompt = require('prompt-sync')({ sigint: true });
 // import from mules
 const { PlayersFactory } = require('./Player');
 const { insertMove } = require('./ScoreLogic');
-const { turn } = require('./turn');
-
-const getNumberOfPlayers = (message) => {
-    return prompt(`${message}`);
-}
+const { turnConstructor } = require('./turn');
+const { Y, obtainNewInput, getInput } = require('./InputController');
 
 const validRangePlayers = (minPlayers, maxPlayers) => (N) => {
     return N >= minPlayers && N <= maxPlayers;
 }
-
-const obtainNewInput = (isValid) => (getNewInput) => (f) => (N => (isValid(N)) ? N : f(getNewInput("Invalid input, try again: ")));
-
-Y = f => (x => x(x))(x => f(y => x(x)(y)));
 
 function initGame() {
 
@@ -28,11 +21,13 @@ function initGame() {
     const minPlayers = 2;
     const maxPlayers = 6;
 
-    const getValidNumber = obtainNewInput(validRangePlayers(minPlayers, maxPlayers))(getNumberOfPlayers);
+    const turn = turnConstructor(numberOfPlaysPerRound);
+
+    const getValidNumber = obtainNewInput(validRangePlayers(minPlayers, maxPlayers))(getInput);
 
     // ask how many players
     console.log("");
-    const numberOfPlayers = Y(getValidNumber)(getNumberOfPlayers("How many players? " + `(min:${minPlayers}, max:${maxPlayers}): `));
+    const numberOfPlayers = Y(getValidNumber)(getInput("How many players? " + `(min:${minPlayers}, max:${maxPlayers}): `));
 
     players = PlayersFactory(numberOfPlayers);
 

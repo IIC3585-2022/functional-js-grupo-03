@@ -1,35 +1,34 @@
 const prompt = require('prompt-sync')({ sigint: true });
 const _ = require('lodash');
 
-function turn() {
+const { Y, obtainNewInput, getInput } = require('./InputController');
 
-    // El jugador ingresa 3 jugadas
-    const plays = 3;
+// function turn() {
 
-    // displayRulesOfPlay();
+//     // El jugador ingresa 3 jugadas
+//     const plays = 3;
 
-    // var play = curriedPlayArray(insertNewPlay(0));
+//     // displayRulesOfPlay();
 
-    // for (let i = 1; i < plays; i++) {
-    //     displayRulesOfPlay();
-    //     play = play(insertNewPlay(i));
-    // }
+//     // var play = curriedPlayArray(insertNewPlay(0));
 
-    // return callCurriedFunctionNTimes(plays, curriedNPlayArray(plays), insertNewPlay);
-    return getNPlaysInArray(plays);
+//     // for (let i = 1; i < plays; i++) {
+//     //     displayRulesOfPlay();
+//     //     play = play(insertNewPlay(i));
+//     // }
 
+//     // return callCurriedFunctionNTimes(plays, curriedNPlayArray(plays), insertNewPlay);
+//     return getNPlaysInArray(plays);
+
+// }
+
+const turnConstructor = (numberOfPlays) => () => {
+    return getNPlaysInArray(numberOfPlays);
 }
-
-const getInput = (message) => {
-    return prompt(`${message}`);
-}
-
-const obtainNewInput = (isValid) => (getNewInput) => (f) => (N => (isValid(N)) ? N : f(getNewInput("Invalid input, try again: ")));
-
-Y = f => (x => x(x))(x => f(y => x(x)(y)));
 
 /** Aqui convendria usar un Y combinator */
-const callCurriedFunctionNTimes = (n, fn, gx) => (n === 1) ? fn(gx(n)) : callCurriedFunctionNTimes(n - 1, fn, gx)(gx(n));
+//se consiguio
+// const callCurriedFunctionNTimes = (n, fn, gx) => (n === 1) ? fn(gx(n)) : callCurriedFunctionNTimes(n - 1, fn, gx)(gx(n));
 
 
 function displayRulesOfPlay() {
@@ -40,11 +39,11 @@ function displayRulesOfPlay() {
 
 const getValidPlay = obtainNewInput(verifyPlay)(getInput);
 
-const insertNewPlay2 = (number) => Y(getValidPlay)(getInput(`So, What is your ${number} play? `));
+const insertNewPlay = (number) => Y(getValidPlay)(getInput(`So, What is your ${number} play? `));
 
 const combineFunctions = (f, g) => (...args) => f(g(...args));
 
-const getNormalizedPlay = (N) => combineFunctions(normalizePlay, insertNewPlay2)(N);
+const getNormalizedPlay = (N) => combineFunctions(normalizePlay, insertNewPlay)(N);
 
 const getNPlaysInArray = (N) => {
     return Array(...Array(N).keys()).map((value) => value + 1).map((n) => {
@@ -53,18 +52,18 @@ const getNPlaysInArray = (N) => {
     });
 }
 
-const insertNewPlay = (nPlay) => {
+// const insertNewPlay = (nPlay) => {
 
-    var newPlay = getPlay(nPlay);
+//     var newPlay = getPlay(nPlay);
 
-    while (!verifyPlay(newPlay)) {
-        console.log("\nInvalid play, try again");
-        displayRulesOfPlay();
-        newPlay = getPlay(nPlay);
-    }
+//     while (!verifyPlay(newPlay)) {
+//         console.log("\nInvalid play, try again");
+//         displayRulesOfPlay();
+//         newPlay = getPlay(nPlay);
+//     }
 
-    return normalizePlay(newPlay);
-}
+//     return normalizePlay(newPlay);
+// }
 
 function normalizePlay(play) {
 
@@ -93,22 +92,22 @@ function verifyPlay(play) {
     return false;
 }
 
-function getPlay(number) {
-    console.log("");
-    return prompt(`So, What is your ${number} play? `);
-}
+// function getPlay(number) {
+//     console.log("");
+//     return prompt(`So, What is your ${number} play? `);
+// }
 
-function createNewArray(...args) {
-    return new Array(...args);
-}
+// function createNewArray(...args) {
+//     return new Array(...args);
+// }
 
-function playArray(firstPlay, secondPlay, thirdPlay) {
-    return [firstPlay, secondPlay, thirdPlay];
-}
+// function playArray(firstPlay, secondPlay, thirdPlay) {
+//     return [firstPlay, secondPlay, thirdPlay];
+// }
 
-var curriedPlayArray = _.curry(playArray);
+// var curriedPlayArray = _.curry(playArray);
 
-var curriedNPlayArray = (N) => _.curry(createNewArray, N);
+// var curriedNPlayArray = (N) => _.curry(createNewArray, N);
 
 // var play = curriedPlayArray(0);
 
@@ -121,7 +120,7 @@ var curriedNPlayArray = (N) => _.curry(createNewArray, N);
 
 // console.log(curriedNPlayArray(3)(1)(2, 3));
 
-console.log(turn());
+// console.log(turn());
 
 
-module.exports = { turn };
+module.exports = { turnConstructor };

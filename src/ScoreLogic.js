@@ -1,10 +1,6 @@
 function insertMove(userData, play) {
     const { name, points } = userData;
-<<<<<<< HEAD
     const newPoints = obtainNewPoints(processPlay2)(points, play);
-=======
-    const newPoints = obtainNewPoints(processPlay)(points, play);
->>>>>>> 09828b3edb3c001383ebbb69861c3ac8adc1b472
 
     return {
         name,
@@ -15,7 +11,6 @@ function insertMove(userData, play) {
 const obtainNewPoints = (f) => (pointsLeft, playData) => Math.abs(pointsLeft - f(playData));
 
 function processPlay(play) {
-<<<<<<< HEAD
     // play is an array of lenght 3
     // every item strings DB, SB or can be an array of lenght 2 (is no longer than that) with only integers
 
@@ -52,8 +47,6 @@ function processPlay(play) {
 }
 
 function processPlay2(play) {
-=======
->>>>>>> 09828b3edb3c001383ebbb69861c3ac8adc1b472
     return play.reduce((previousValue, currentValue) => previousValue + processItem(currentValue), 0);
 }
 

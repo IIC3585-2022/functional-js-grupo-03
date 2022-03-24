@@ -32,13 +32,10 @@ const getNPlaysInArray = (N) => {
         });
 }
 
-<<<<<<< HEAD
 /** Aqui convendria usar un Y combinator */
 // se consiguio
 // const callCurriedFunctionNTimes = (n, fn, gx) => (n === 1) ? fn(gx(n)) : callCurriedFunctionNTimes(n - 1, fn, gx)(gx(n));
 
-=======
->>>>>>> 09828b3edb3c001383ebbb69861c3ac8adc1b472
 function displayRulesOfPlay() {
     console.log('\nThere are 4 type of plays: ');
     console.log('SB, DB, null or number,number');
@@ -53,7 +50,6 @@ const combineFunctions = (f, g) => (...args) => f(g(...args));
 
 const getNormalizedPlay = (N) => combineFunctions(normalizePlay, insertNewPlay)(N);
 
-<<<<<<< HEAD
 // const insertNewPlay = (nPlay) => {
 
 //     var newPlay = getPlay(nPlay);
@@ -67,18 +63,12 @@ const getNormalizedPlay = (N) => combineFunctions(normalizePlay, insertNewPlay)(
 //     return normalizePlay(newPlay);
 // }
 
-=======
->>>>>>> 09828b3edb3c001383ebbb69861c3ac8adc1b472
 function normalizePlay(play) {
 
     if (['sb', 'db', 'null'].includes(play.toLowerCase())) return play;
 
     if (play.includes(',') && play.split(',').length === 2) {
-<<<<<<< HEAD
         return play.split(',').map(Number);
-=======
-        return play.split(',').map(Number);  // ej. [ 2, 15 ]
->>>>>>> 09828b3edb3c001383ebbb69861c3ac8adc1b472
     }
 
     return 'null';
@@ -87,10 +77,6 @@ function normalizePlay(play) {
 function verifyPlay(play) {
 
     if (['sb', 'db', 'null'].includes(play.toLowerCase())) return true;
-<<<<<<< HEAD
-=======
-
->>>>>>> 09828b3edb3c001383ebbb69861c3ac8adc1b472
     if (play.includes(',') && play.split(',').length === 2 && !play.includes('.')) {
         const [multiplier, score] = play.split(',');
         return (!!parseInt(multiplier) && !!parseInt(score));

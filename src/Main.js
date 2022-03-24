@@ -1,6 +1,3 @@
-const prompt = require('prompt-sync')({ sigint: true });
-
-// import from mules
 const { PlayersFactory } = require('./Player');
 const { insertMove } = require('./ScoreLogic');
 const { turnConstructor } = require('./turn');
@@ -26,19 +23,18 @@ function initGame() {
     const getValidNumber = obtainNewInput(validRangePlayers(minPlayers, maxPlayers))(getInput);
 
     // ask how many players
-    console.log("");
-    const numberOfPlayers = Y(getValidNumber)(getInput("How many players? " + `(min:${minPlayers}, max:${maxPlayers}): `));
+    console.log('');
+    const numberOfPlayers = Y(getValidNumber)(getInput(`How many players? (min:${minPlayers}, max:${maxPlayers}): `));
 
     players = PlayersFactory(numberOfPlayers);
 
     // start the game
     for (let i = 0; i < numberOfRounds; i++) {
-
-        console.log("\nRound " + (i + 1));
+        console.log(`\nRound ${i + 1}`);
 
         // ask for each player to play
         players.forEach(player => {
-            console.log("\nPlayer " + player.name + " turn");
+            console.log(`\nPlayer ${player.name} turn`);
             const play = turn();
             const newDataPlayer = insertMove(player, play);
             playersSupportArray.push(newDataPlayer);
@@ -46,13 +42,12 @@ function initGame() {
 
         players = playersSupportArray;
         playersSupportArray = [];
-
     }
 
-    console.log("\nFinal score: ");
+    console.log('\nFinal score: ');
 
     players.forEach(player => {
-        console.log("\nPlayer " + player.name + ": " + player.points);
+        console.log(`\nPlayer ${player.name}: ${player.points}`);
     });
 
     return 0;

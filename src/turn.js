@@ -1,6 +1,3 @@
-const prompt = require('prompt-sync')({ sigint: true });
-const _ = require('lodash');
-
 const { Y, obtainNewInput, getInput } = require('./InputController');
 
 // function turn() {
@@ -26,15 +23,23 @@ const turnConstructor = (numberOfPlays) => () => {
     return getNPlaysInArray(numberOfPlays);
 }
 
+const getNPlaysInArray = (N) => {
+    return Array(...Array(N).keys())
+        .map(value => value + 1)
+        .map(n => {
+            displayRulesOfPlay();
+            return getNormalizedPlay(n);
+        });
+}
+
 /** Aqui convendria usar un Y combinator */
-//se consiguio
+// se consiguio
 // const callCurriedFunctionNTimes = (n, fn, gx) => (n === 1) ? fn(gx(n)) : callCurriedFunctionNTimes(n - 1, fn, gx)(gx(n));
 
-
 function displayRulesOfPlay() {
-    console.log("\nThere are 4 type of plays: ");
-    console.log("SB, DB, null or number,number");
-    console.log("In the number,number, the second number is the points and the first number is the multiplier");
+    console.log('\nThere are 4 type of plays: ');
+    console.log('SB, DB, null or number,number');
+    console.log('In the number,number, the second number is the points and the first number is the multiplier');
 }
 
 const getValidPlay = obtainNewInput(verifyPlay)(getInput);
@@ -44,13 +49,6 @@ const insertNewPlay = (number) => Y(getValidPlay)(getInput(`So, What is your ${n
 const combineFunctions = (f, g) => (...args) => f(g(...args));
 
 const getNormalizedPlay = (N) => combineFunctions(normalizePlay, insertNewPlay)(N);
-
-const getNPlaysInArray = (N) => {
-    return Array(...Array(N).keys()).map((value) => value + 1).map((n) => {
-        displayRulesOfPlay();
-        return getNormalizedPlay(n);
-    });
-}
 
 // const insertNewPlay = (nPlay) => {
 
@@ -67,26 +65,21 @@ const getNPlaysInArray = (N) => {
 
 function normalizePlay(play) {
 
-    if (['sb', 'db', 'null'].includes(play.toLowerCase())) { return play; }
+    if (['sb', 'db', 'null'].includes(play.toLowerCase())) return play;
 
-    else if (play.includes(',') && play.split(',').length === 2) {
-        const array = play.split(',');
-        return [parseInt(array[0]), parseInt(array[1])];
+    if (play.includes(',') && play.split(',').length === 2) {
+        return play.split(',').map(Number);
     }
 
     return 'null';
 }
 
-
 function verifyPlay(play) {
 
-    if (['sb', 'db', 'null'].includes(play.toLowerCase())) { return true; }
-
-    else if (play.includes(',') && play.split(',').length === 2) {
-        const array = play.split(',');
-        if (!array[0].includes('.') && !array[1].includes('.')) {
-            if (!!parseInt(array[0]) && !!parseInt(array[1])) return true;
-        }
+    if (['sb', 'db', 'null'].includes(play.toLowerCase())) return true;
+    if (play.includes(',') && play.split(',').length === 2 && !play.includes('.')) {
+        const [multiplier, score] = play.split(',');
+        return (!!parseInt(multiplier) && !!parseInt(score));
     }
 
     return false;
@@ -121,6 +114,5 @@ function verifyPlay(play) {
 // console.log(curriedNPlayArray(3)(1)(2, 3));
 
 // console.log(turn());
-
 
 module.exports = { turnConstructor };

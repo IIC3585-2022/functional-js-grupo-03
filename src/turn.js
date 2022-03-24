@@ -45,7 +45,7 @@ function verifyPlay(play) {
     else if (play.includes(',') && play.split(',').length === 2) {
         const [multiplier, score] = play.split(',');
         if (!play.includes('.')) {
-            return (!!parseInt(array[0]) && !!parseInt(array[1]));
+            return (!!parseInt(multiplier) && !!parseInt(score));
         }
     }
 

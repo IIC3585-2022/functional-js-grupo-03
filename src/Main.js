@@ -15,8 +15,8 @@ function initGame() {
     var players = [];
     var playersSupportArray = [];
 
-    const numberOfRounds = 1;
-    const numberOfPlaysPerRound = 2;
+    const numberOfRounds = 3;
+    const numberOfPlaysPerRound = 3;
 
     const minPlayers = 2;
     const maxPlayers = 6;
@@ -27,7 +27,7 @@ function initGame() {
 
     // ask how many players
     console.log("");
-    const numberOfPlayers = Y(getValidNumber)(getInput("How many players? " + `(min:${minPlayers}, max:${maxPlayers}): `));
+    const numberOfPlayers = Y(getValidNumber)(getInput(`How many players? (min:${minPlayers}, max:${maxPlayers}): `));
 
     players = PlayersFactory(numberOfPlayers);
 

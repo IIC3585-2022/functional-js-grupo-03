@@ -4,6 +4,15 @@ const turnConstructor = (numberOfPlays) => () => {
     return getNPlaysInArray(numberOfPlays);
 }
 
+const getNPlaysInArray = (N) => {
+    return Array(...Array(N).keys())
+        .map(value => value + 1)
+        .map(n => {
+            displayRulesOfPlay();
+            return getNormalizedPlay(n);
+        });
+}
+
 function displayRulesOfPlay() {
     console.log("\nThere are 4 type of plays: ");
     console.log("SB, DB, null or number,number");
@@ -12,26 +21,18 @@ function displayRulesOfPlay() {
 
 const getValidPlay = obtainNewInput(verifyPlay)(getInput);
 
-const insertNewPlay = (number) => Y(getValidPlay)(getInput(`So, What is your ${number} play? `));
+const insertNewPlay = (number) => Y(getValidPlay)(getInput(`So, what is your ${number} play? `));
 
 const combineFunctions = (f, g) => (...args) => f(g(...args));
 
 const getNormalizedPlay = (N) => combineFunctions(normalizePlay, insertNewPlay)(N);
 
-const getNPlaysInArray = (N) => {
-    return Array(...Array(N).keys()).map((value) => value + 1).map((n) => {
-        displayRulesOfPlay();
-        return getNormalizedPlay(n);
-    });
-}
-
 function normalizePlay(play) {
 
-    if (['sb', 'db', 'null'].includes(play.toLowerCase())) { return play; }
+    if (['sb', 'db', 'null'].includes(play.toLowerCase())) return play;
 
-    else if (play.includes(',') && play.split(',').length === 2) {
-        const array = play.split(',');
-        return [parseInt(array[0]), parseInt(array[1])];
+    if (play.includes(',') && play.split(',').length === 2) {
+        return play.split(',').map(Number);  // ej. [ 2, 15 ]
     }
 
     return 'null';
@@ -40,13 +41,11 @@ function normalizePlay(play) {
 
 function verifyPlay(play) {
 
-    if (['sb', 'db', 'null'].includes(play.toLowerCase())) { return true; }
+    if (['sb', 'db', 'null'].includes(play.toLowerCase())) return true;
 
-    else if (play.includes(',') && play.split(',').length === 2) {
+    if (play.includes(',') && play.split(',').length === 2 && !play.includes('.')) {
         const [multiplier, score] = play.split(',');
-        if (!play.includes('.')) {
-            return (!!parseInt(multiplier) && !!parseInt(score));
-        }
+        return (!!parseInt(multiplier) && !!parseInt(score));
     }
 
     return false;

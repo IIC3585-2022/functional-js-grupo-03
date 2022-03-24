@@ -1,7 +1,6 @@
 function insertMove(userData, play) {
     const { name, points } = userData;
     const newPoints = obtainNewPoints(processPlay)(points, play);
-    console.log('newPoints:', newPoints, 'after play', play);
 
     return {
         name,
@@ -12,7 +11,7 @@ function insertMove(userData, play) {
 const obtainNewPoints = (f) => (pointsLeft, playData) => Math.abs(pointsLeft - f(playData));
 
 function processPlay(play) {
-    return play.reduce((previousValue, currentValue) => previousValue + processItem(currentValue));
+    return play.reduce((previousValue, currentValue) => previousValue + processItem(currentValue), 0);
 }
 
 function processItem(item) {
@@ -26,7 +25,7 @@ function processString(item) {
 }
 
 function processArray(item) {
-    return item.reduce((a, b) => a * b);  // Equivalente a Math.imul
+    return item.reduce((a, b) => a * b);
 }
 
 module.exports = { insertMove };

@@ -23,7 +23,11 @@ function initGame() {
     const getValidNumber = obtainNewInput(validRangePlayers(minPlayers, maxPlayers))(getInput);
 
     // ask how many players
+<<<<<<< HEAD
     console.log('');
+=======
+    console.log("");
+>>>>>>> 09828b3edb3c001383ebbb69861c3ac8adc1b472
     const numberOfPlayers = Y(getValidNumber)(getInput(`How many players? (min:${minPlayers}, max:${maxPlayers}): `));
 
     players = PlayersFactory(numberOfPlayers);

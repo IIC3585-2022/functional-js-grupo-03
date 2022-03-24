@@ -15,8 +15,8 @@ function initGame() {
     var players = [];
     var playersSupportArray = [];
 
-    const numberOfRounds = 3;
-    const numberOfPlaysPerRound = 3;
+    const numberOfRounds = 1;
+    const numberOfPlaysPerRound = 2;
 
     const minPlayers = 2;
     const maxPlayers = 6;
@@ -38,7 +38,7 @@ function initGame() {
 
         // ask for each player to play
         players.forEach(player => {
-            console.log("\nPlayer " + player.name + " turn");
+            console.log("\nPlayer " + player.name + "'s turn");
             const play = turn();
             const newDataPlayer = insertMove(player, play);
             playersSupportArray.push(newDataPlayer);

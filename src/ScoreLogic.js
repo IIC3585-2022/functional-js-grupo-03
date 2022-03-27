@@ -47,7 +47,7 @@ function processPlay(play) {
 }
 
 function processPlay2(play) {
-    return play.reduce((previousValue, currentValue) => { return previousValue + processItem(currentValue) }, 0);
+    return play.reduce((previousValue, currentValue) => previousValue + processItem(currentValue), 0);
 }
 
 function processItem(item) {

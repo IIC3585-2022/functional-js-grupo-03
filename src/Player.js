@@ -14,7 +14,7 @@ function getPlayer() {
 }
 
 function getPlayerName() {
-    return prompt("What is your name? ");
+    return prompt('What is your name? ');
 }
 
 function getPlayers(numberOfPlayers) {
@@ -34,13 +34,10 @@ function PlayersFactory(numberOfPlayers) {
     // }
 
     return shuffle(getPlayers(numberOfPlayers));
-
 }
 
 function shuffle(array) {
     return array.sort(() => Math.random() - 0.5);
 }
-
-// PlayersFactory(3);
 
 module.exports = { PlayersFactory };
